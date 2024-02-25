@@ -1,0 +1,14 @@
+package pages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+
+public class AboutPage extends BasePage{
+    public AboutPage(WebDriver driver){
+        setDriver(driver);
+        //automatically set elements on page
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver,20),this);
+
+    }
+}
