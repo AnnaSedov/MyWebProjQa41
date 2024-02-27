@@ -19,19 +19,29 @@ public class PhoneBookTest extends BaseTest {
         MainPage mainPage=new MainPage(getDriver());
         LoginPage  loginPage =mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
 
-//        loginPage.fillEmailField("myemail@mail.com").clickByRegistrationButton();
-//        Thread.sleep(15000);
-        //hw2
+       loginPage.fillEmailField("myemail@mail.com").clickByRegistrationButton();
+       Thread.sleep(5000);
+         }
+    //hw2
+    @Test
+    @Parameters("browser")
+    public void phoneBookTest002() throws InterruptedException{
+
+        MainPage mainPage=new MainPage(getDriver());
+        LoginPage  loginPage =mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
         //test 1 positive registration with correct login and password
-        loginPage.fillEmailField("myemailAnna22@mail.com").fillPasswordField("1Test22!").clickByRegistrationButton();
-        Thread.sleep(15000);
-        //test 2 positive login with correct login and password
-        loginPage.fillEmailField("homeann7@gmail.com").fillPasswordField("21212zZ!").clickByLoginButton();
-        Thread.sleep(15000);
-
-
-
+        loginPage.fillEmailField("myemailAnna3@mail.com").fillPasswordField("1Test22!").clickByRegistrationButton();
+        Thread.sleep(5000);
 
     }
+    @Test
+    @Parameters("browser")
+    public void phoneBookTest003() throws InterruptedException {
 
+        MainPage mainPage = new MainPage(getDriver());
+        LoginPage loginPage = mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
+        //test 2 positive login with correct login and password
+        loginPage.fillEmailField("homeann7@gmail.com").fillPasswordField("21212zZ!").clickByLoginButton();
+        Thread.sleep(5000);
+    }
 }
