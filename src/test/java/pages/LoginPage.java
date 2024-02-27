@@ -27,5 +27,20 @@ public class LoginPage extends BasePage {
     public  LoginPage clickByRegistrationButton(){
         registrationButton.click();
         return this;
+            }
+            //hw 2
+    //password fiels
+    @FindBy(xpath = "//input[@name=\"password\"]")
+    WebElement passwordField;
+    public LoginPage fillPasswordField(String password){
+        passwordField.sendKeys(password);
+        return this;
+    }
+    //login button
+    @FindBy(xpath = "//button[@name=\"login\"]")
+    WebElement loginButton;
+    public LoginPage clickByLoginButton(){
+        loginButton.click();
+        return this;
     }
 }
