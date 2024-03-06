@@ -20,9 +20,9 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//button[@name='registration']")
     WebElement registrationButton;
 
-    @FindBy(xpath = "//input[@name=\"password\"]")
+    @FindBy(xpath = "//input[@name='password']")
     WebElement passwordField;
-    @FindBy(xpath = "//button[@name=\"login\"]")
+    @FindBy(xpath = "//button[@name='login']")
     WebElement loginButton;
 
     public LoginPage(WebDriver driver){
@@ -35,9 +35,9 @@ public class LoginPage extends BasePage {
         emailField.sendKeys(email);
         return this;
     }
-    public  LoginPage clickByRegistrationButton(){
+    public Alert clickByRegistrationButton(){
         registrationButton.click();
-        return this;
+        return getAlertIfPresent();
             }
             //hw 2
     //password fiels
