@@ -87,7 +87,7 @@ public void registrationWithoutPassword(@Optional("chrome") String browser) thro
     Thread.sleep(5000);
     AddPage addPage=mainPage.openTopMenu(TopMenuItem.ADD.toString());
   //  addPage.fillFormAndSave(new Contact(NameAndLastNameGenerator.generateName(),NameAndLastNameGenerator.generateLastName(),EmailGenerator.generateEmail(5,4,2),AddressGenerator.generateAddress(),PhoneNumberGenerator.generatePhoneNumber(),""));
-    addPage.fillFormAndSave(new Contact("a","b","aa@bb.com","ddd","22222222222",""));
+    addPage.fillFormAndSave(new Contact("acc","b","aa@bb.com","ddd","22222222222"," "));
     Thread.sleep(5000);
  ////   boolean isAlertHandled=AlertHandler.handAlert(alert,expectString);
 
