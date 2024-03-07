@@ -73,21 +73,30 @@ public void registrationWithoutPassword(@Optional("chrome") String browser) thro
 }
 
 @Test(description = "The test of login with exist user and add new contact")
-    @Parameters("browser")
-    public void loginOfAnExistingUserAddContact(@Optional("firefox") String browser ) throws InterruptedException{
+@Parameters("browser")
+    public void loginOfAnExistingUserAddContact(@Optional("chrome") String browser ) throws InterruptedException{
  //  Allure.description("User already exist. Login and add contact.");
     MainPage mainPage=new MainPage(getDriver());
-   // Allure.step("Click by Login button");
-    LoginPage loginPage=mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
-//
-//    Allure.step("Click by Log button");
-//    String expectString="";
 
-    Alert alert= (Alert) loginPage.fillEmailField("homeann7@gmail.com").fillPasswordField("21212zZ!").clickByLoginButton();
-    Thread.sleep(5000);
-    AddPage addPage=mainPage.openTopMenu(TopMenuItem.ADD.toString());
+    LoginPage loginPage=mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
+
+
+     loginPage.fillEmailField("homeann7@gmail.com").fillPasswordField("21212zZ!").clickByLoginButton();
+    //  Thread.sleep(5000);
+    mainPage.openTopMenu(TopMenuItem.ADD.toString());
+    AddPage addPage=new AddPage(getDriver());
+
+   Contact contact=new Contact(NameAndLastNameGenerator.generateName(),NameAndLastNameGenerator.generateLastName(),EmailGenerator.generateEmail(5,4,2),AddressGenerator.generateAddress(),
+           PhoneNumberGenerator.generatePhoneNumber()," test");
+   addPage.fillFormAndSave(contact);
+
+   ContactsPage cp=new ContactsPage(getDriver());
+   Assert.assertTrue(cp.getDataFromContactList(contact));
+
   //  addPage.fillFormAndSave(new Contact(NameAndLastNameGenerator.generateName(),NameAndLastNameGenerator.generateLastName(),EmailGenerator.generateEmail(5,4,2),AddressGenerator.generateAddress(),PhoneNumberGenerator.generatePhoneNumber(),""));
-    addPage.fillFormAndSave(new Contact("acc","b","aa@bb.com","ddd","22222222222"," "));
+
+  //  addPage.fillFormAndSave(new Contact("acc","b","aa@bb.com","ddd","22222222222"," "));
+
     Thread.sleep(5000);
  ////   boolean isAlertHandled=AlertHandler.handAlert(alert,expectString);
 

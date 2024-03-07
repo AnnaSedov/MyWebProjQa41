@@ -14,17 +14,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class AddPage extends BasePage{
-    @FindBy(xpath = "//input[@placeholder(text(),'Name')]")
+    @FindBy(xpath = "//input[@placeholder='Name']")
     WebElement nameField;
-    @FindBy(xpath = "//input[@placeholder(text(),'Last Name')]")
+    @FindBy(xpath = "//input[@placeholder='Last Name']")
     WebElement lastNameField;
-    @FindBy(xpath = "//input[@placeholder(text(),'Phone')]")
+    @FindBy(xpath = "//input[@placeholder='Phone']")
     WebElement phoneField;
-    @FindBy(xpath = "//input[@placeholder(text(),'email')]")
+    @FindBy(xpath = "//input[@placeholder='email']")
     WebElement emailField;
-    @FindBy(xpath = "//input[@placeholder(text(),'Address')]")
+    @FindBy(xpath = "//input[@placeholder='Address']")
     WebElement addressField;
-    @FindBy(xpath = "//input[@placeholder(text(),'Description')]")
+    @FindBy(xpath = "//input[@placeholder='description']")
     WebElement descriptionField;
     @FindBy(xpath = "//b[contains(text(),'Save')]")
     WebElement saveButton;
