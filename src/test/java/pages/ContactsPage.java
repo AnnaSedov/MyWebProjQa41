@@ -20,7 +20,14 @@ public class ContactsPage extends BasePage {
         setDriver(driver);
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 20), this);
     }
+//hw 2024-03-10 find button Sign Out
 
+    public boolean FindButton(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement b= wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(),'Sign')]")));
+        if(b.isDisplayed()){return true;}
+        return false;
+    }
     /**
      * Этот метод предназначен для получения данных о контакте из списка контактов
      * на веб-странице и сравнения полученных данных с данными переданным объектом Contact.

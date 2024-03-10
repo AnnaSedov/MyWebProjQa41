@@ -10,6 +10,9 @@ import helpers.TopMenuItem;
 import io.qameta.allure.Allure;
 import model.Contact;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -75,13 +78,16 @@ public void registrationWithoutPassword(@Optional("chrome") String browser) thro
 @Test(description = "The test of login with exist user and add new contact")
 @Parameters("browser")
     public void loginOfAnExistingUserAddContact(@Optional("chrome") String browser ) throws InterruptedException{
- //  Allure.description("User already exist. Login and add contact.");
-    MainPage mainPage=new MainPage(getDriver());
+  Allure.description("User already exist. Login and add contact.");
 
+    MainPage mainPage=new MainPage(getDriver());
+    Allure.step("login with exist user");
     LoginPage loginPage=mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
 
 
-     loginPage.fillEmailField("homeann7@gmail.com").fillPasswordField("21212zZ!").clickByLoginButton();
+  //   loginPage.fillEmailField("homeann7@gmail.com").fillPasswordField("21212zZ!").clickByLoginButton();
+   Allure.step("step 2");
+    loginPage.fillEmailField(PropertiesReader.getProperty("existingUserEmail")).fillPasswordField(PropertiesReader.getProperty("existingUserPassword")).clickByLoginButton();
     //  Thread.sleep(5000);
     mainPage.openTopMenu(TopMenuItem.ADD.toString());
     AddPage addPage=new AddPage(getDriver());
@@ -92,14 +98,32 @@ public void registrationWithoutPassword(@Optional("chrome") String browser) thro
 
    ContactsPage cp=new ContactsPage(getDriver());
    Assert.assertTrue(cp.getDataFromContactList(contact));
+    TakeScreen.takeScreenshot("screen");
+   Thread.sleep(5000);
+  ////   boolean isAlertHandled=AlertHandler.handAlert(alert,expectString);
 
-  //  addPage.fillFormAndSave(new Contact(NameAndLastNameGenerator.generateName(),NameAndLastNameGenerator.generateLastName(),EmailGenerator.generateEmail(5,4,2),AddressGenerator.generateAddress(),PhoneNumberGenerator.generatePhoneNumber(),""));
+}
 
-  //  addPage.fillFormAndSave(new Contact("acc","b","aa@bb.com","ddd","22222222222"," "));
+//hw 2024-03-10
+@Test(description = "The positive registration test  with correct login and password")
+    @Parameters("browser")
+    public void positiveRegistrationWithCorrectLoginAndPassword(@Optional("edge") String browser)throws InterruptedException{
+        Allure.description("Enter correct login and password");
+        Allure.step("Open login page");
+        MainPage mainPage=new MainPage(getDriver());
+        LoginPage loginPage=mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
+        Allure.step("Fill email with generator and exist password from resources");
+     //   loginPage.fillEmailField(EmailGenerator.generateEmail(4,2,3)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword")).clickByRegistrationButton();
 
+    loginPage.fillEmailField(EmailGenerator.generateEmail(3,3,2)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword")).clickByRegistrationButton();
+    Allure.step("Find button- Sign out");
+
+        ContactsPage cp=new ContactsPage(getDriver());
     Thread.sleep(5000);
- ////   boolean isAlertHandled=AlertHandler.handAlert(alert,expectString);
 
+        Assert.assertTrue(cp.FindButton());
+        TakeScreen.takeScreenshot("positReg");
+    Thread.sleep(5000);
 }
 
 
