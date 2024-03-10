@@ -1,9 +1,9 @@
 package helpers;
 
 public class EmailGenerator {
-    public static void main(String[] args){
-        System.out.println("Generate mail: "+generateEmail(10,5,3));
-    }
+   // public static void main(String[] args){
+//        System.out.println("Generate mail: "+generateEmail(5,5,3));
+//    }
 
     public static String generateEmail(int a,int b,int c){
        // name@mail.com  a b c
@@ -28,6 +28,6 @@ public class EmailGenerator {
         return email.toString();
     }
     private static char randomChar(){
-        return (char) ('a'+Math.random()+('z'-'a'));
+        return (char) ('a'+Math.random()*('z'-'a'));
     }
 }

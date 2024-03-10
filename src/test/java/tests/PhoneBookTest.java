@@ -115,7 +115,7 @@ public void registrationWithoutPassword(@Optional("chrome") String browser) thro
         Allure.step("Fill email with generator and exist password from resources");
      //   loginPage.fillEmailField(EmailGenerator.generateEmail(4,2,3)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword")).clickByRegistrationButton();
 
-    loginPage.fillEmailField(EmailGenerator.generateEmail(3,4,2)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword")).clickByRegistrationButton();
+    loginPage.fillEmailField(EmailGenerator.generateEmail(6,4,2)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword")).clickByRegistrationButton();
     Allure.step("Find button- Sign out");
 
         ContactsPage cp=new ContactsPage(getDriver());
