@@ -1,0 +1,28 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite2">
+
+    <test name="Create contact">
+        <parameter name="browser" value="firefox">
+            <classes>
+                <class name="tests.PhoneBookTest">
+                    <methods>
+                        <include name="loginOfAnExistingUserAddContact"/>
+                    </methods>
+                </class>
+            </classes>
+
+        </parameter>
+    </test>
+    <test name="Delete contact">
+        <parameter name="browser" value="firefox">
+            <classes>
+                <class name="tests.PhoneBookTest">
+                    <methods>
+                        <include name="posDeleteExistUserFromContactsList"/>
+                    </methods>
+                </class>
+            </classes>
+
+        </parameter>
+    </test>
+</suite>
