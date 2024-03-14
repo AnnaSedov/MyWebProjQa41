@@ -13,6 +13,8 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -21,6 +23,8 @@ import pages.AddPage;
 import pages.ContactsPage;
 import pages.LoginPage;
 import pages.MainPage;
+
+import java.time.Duration;
 
 public class PhoneBookTest extends BaseTest {
 //    @Test
@@ -86,12 +90,13 @@ public void registrationWithoutPassword(@Optional("chrome") String browser) thro
 
 
   //   loginPage.fillEmailField("homeann7@gmail.com").fillPasswordField("21212zZ!").clickByLoginButton();
-   Allure.step("step 2");
-    loginPage.fillEmailField(PropertiesReader.getProperty("existingUserEmail")).fillPasswordField(PropertiesReader.getProperty("existingUserPassword")).clickByLoginButton();
-    //  Thread.sleep(5000);
+   Allure.step("read email and password from resources");
+    String PROPERTIES_FILE_PATH="src/test/resources/resources.properties";
+    loginPage.fillEmailField(PropertiesReader.getProperty("existingUserEmail",PROPERTIES_FILE_PATH)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword",PROPERTIES_FILE_PATH)).clickByLoginButton();
+
     mainPage.openTopMenu(TopMenuItem.ADD.toString());
     AddPage addPage=new AddPage(getDriver());
-
+Allure.step("generate new contact");
    Contact contact=new Contact(NameAndLastNameGenerator.generateName(),NameAndLastNameGenerator.generateLastName(),EmailGenerator.generateEmail(5,4,2),AddressGenerator.generateAddress(),
            PhoneNumberGenerator.generatePhoneNumber()," test");
    addPage.fillFormAndSave(contact);
@@ -99,8 +104,13 @@ public void registrationWithoutPassword(@Optional("chrome") String browser) thro
    ContactsPage cp=new ContactsPage(getDriver());
    Assert.assertTrue(cp.getDataFromContactList(contact));
     TakeScreen.takeScreenshot("screen");
+    //hw 2024-03-14 add if () and parameter late
+Allure.step("write contact to data");
+PropertiesWriter.writeProperties("contactPhone",contact.getPhone(),false);
+PropertiesWriter.writeProperties("contactName",contact.getName(),false);
+
    Thread.sleep(5000);
-  ////   boolean isAlertHandled=AlertHandler.handAlert(alert,expectString);
+
 
 }
 
@@ -114,8 +124,8 @@ public void registrationWithoutPassword(@Optional("chrome") String browser) thro
         LoginPage loginPage=mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
         Allure.step("Fill email with generator and exist password from resources");
      //   loginPage.fillEmailField(EmailGenerator.generateEmail(4,2,3)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword")).clickByRegistrationButton();
-
-    loginPage.fillEmailField(EmailGenerator.generateEmail(6,4,2)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword")).clickByRegistrationButton();
+String PROPERTIES_FILE_PATH="src/test/resources/resources.properties";
+    loginPage.fillEmailField(EmailGenerator.generateEmail(6,4,2)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword",PROPERTIES_FILE_PATH)).clickByRegistrationButton();
     Allure.step("Find button- Sign out");
 
         ContactsPage cp=new ContactsPage(getDriver());
@@ -126,5 +136,27 @@ public void registrationWithoutPassword(@Optional("chrome") String browser) thro
     //Thread.sleep(5000);
 }
 
+//hw 2024-03-14 delete user from contacts list
+    @Test(description="The positive test of deleting user from contacts list")
+    @Parameters("browser")
+    public void posDeleteExistUserFromContactsList(@Optional("firefox") String browser){
+        Allure.description("The positive test of deleting user from contacts list");
 
+        MainPage mainPage=new MainPage(getDriver());
+        Allure.step("login with exist user");
+        LoginPage loginPage=mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
+
+        Allure.step("read email and password from resources");
+        loginPage.fillEmailField(PropertiesReader.getProperty("existingUserEmail","src/test/resources/resources.properties")).fillPasswordField(PropertiesReader.getProperty("existingUserPassword","src/test/resources/resources.properties")).clickByLoginButton();
+
+       ContactsPage cp=new ContactsPage(getDriver());
+       Allure.step("read contact from data for deleting");
+       String findContactKey =PropertiesReader.getProperty("contactPhone","src/test/resources/data.properties");
+        String findContactName=PropertiesReader.getProperty("contactName","src/test/resources/data.properties");
+        Allure.step("find contact with key phone and delete");
+
+        Assert.assertTrue(cp.deleteContact(findContactKey));
+
+
+    }
 }

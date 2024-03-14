@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertiesReader {
-    private static final String PROPERTIES_FILE_PATH="src/test/resources/resources.properties";
+  //  private static final String PROPERTIES_FILE_PATH="src/test/resources/resources.properties";
 
-    public static String getProperty(String key){
+    public static String getProperty(String key,String findPath){
         Properties properties=new Properties();
-        try(FileInputStream fis=new FileInputStream(PROPERTIES_FILE_PATH)){
+     //   try(FileInputStream fis=new FileInputStream(PROPERTIES_FILE_PATH)){
+        try(FileInputStream fis=new FileInputStream(findPath)){
             properties.load(fis);
             return properties.getProperty(key);
         }catch (IOException exception)

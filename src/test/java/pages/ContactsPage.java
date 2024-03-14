@@ -75,4 +75,18 @@ public class ContactsPage extends BasePage {
         return result; // Метод возвращает результат сравнения в виде логического значения true или false.
     }
 
+
+    public boolean deleteContact(String findContactKey){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement nameInContact = wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        By.xpath("//h3[contains(text(),'"+findContactKey+"')]")));
+        nameInContact.click();
+
+        WebElement removeButton = driver
+                .findElement(By.xpath("//button[contains(text(),'Remove')]"));
+        removeButton.click();
+        return true;// late
+
+    }
 }
