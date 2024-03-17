@@ -1,8 +1,11 @@
 package model;
 
+import org.checkerframework.checker.units.qual.C;
+
+import java.io.*;
 import java.util.Objects;
 
-public class Contact {
+public class Contact implements Serializable {
     private String name;
     private String lastName;
     private  String email;
@@ -101,4 +104,20 @@ public class Contact {
     public void setDescriptions(String descriptions) {
         this.descriptions = descriptions;
     }
+    public static void serializeContact(Contact contact,String fileName) throws IOException{
+
+            ObjectOutputStream outputStream=new ObjectOutputStream(new FileOutputStream(fileName));
+            outputStream.writeObject(contact);
+
+    }
+    public static Contact deserializeContact(String fileName){
+        try(
+        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream(fileName));){
+            return (Contact) inputStream.readObject();
+        }catch (ClassNotFoundException|IOException e){
+            System.out.println("Error during contact deserialization ");
+            throw  new RuntimeException(e);}
+
+    }
 }
+

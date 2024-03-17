@@ -24,6 +24,7 @@ import pages.ContactsPage;
 import pages.LoginPage;
 import pages.MainPage;
 
+import java.io.IOException;
 import java.time.Duration;
 
 public class PhoneBookTest extends BaseTest {
@@ -158,5 +159,40 @@ String PROPERTIES_FILE_PATH="src/test/resources/resources.properties";
         Assert.assertTrue(cp.deleteContact(findContactKey));
 
 
+    }
+    @Test
+    public void deleteContactApproachTwo() throws IOException {
+    String fileName="contactDatafile.ser";
+    MainPage mainPage=new MainPage(getDriver());
+    LoginPage loginPage=mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
+        loginPage.fillEmailField(PropertiesReader.getProperty("existingUserEmail","src/test/resources/resources.properties")).fillPasswordField(PropertiesReader.getProperty("existingUserPassword","src/test/resources/resources.properties")).clickByLoginButton();
+    AddPage addPage=new AddPage(getDriver());
+    mainPage.openTopMenu(TopMenuItem.ADD.toString());
+    Contact newContact=new Contact(NameAndLastNameGenerator.generateName(),NameAndLastNameGenerator.generateLastName(),EmailGenerator.generateEmail(2,3,2),AddressGenerator.generateAddress(),PhoneNumberGenerator.generatePhoneNumber(),"  ");
+    addPage.fillFormAndSave(newContact);
+    Contact.serializeContact(newContact,fileName);
+    ContactsPage contactsPage=new ContactsPage(getDriver());
+    Contact deserContact=Contact.deserializeContact(fileName);
+    Assert.assertNotEquals(contactsPage.deleteContactByPhoneNumberOrName(deserContact.getPhone()),
+                contactsPage.getContactsListSize());
+
+    }
+    //hw 17-03-2024
+    @Test(description = "Registration with already existed user")
+    @Parameters("browser")
+    public void registrationOfAnAlreadyRegisteredUser(@Optional("chrome") String browser){
+        Allure.description("Registration with already existed user and password");
+        Allure.step("Open login page");
+        MainPage mainPage=new MainPage(getDriver());
+        LoginPage loginPage=mainPage.openTopMenu(TopMenuItem.LOGIN.toString());
+        Allure.step("write path for reading of email and password from resources");
+        String PATH="src/test/resources/resources.properties";
+       // loginPage.fillEmailField(PropertiesReader.getProperty("existingUserEmail",PATH)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword",PATH)).clickByRegistrationButton();
+        Allure.step("Negative reaction");
+        String expectedString = "User";
+        Alert alert= loginPage.fillEmailField(PropertiesReader.getProperty("existingUserEmail",PATH)).fillPasswordField(PropertiesReader.getProperty("existingUserPassword",PATH)).clickByRegistrationButton();
+        boolean isAlertHandled=AlertHandler.handAlert(alert,expectedString);
+        TakeScreen.takeScreenshot("negativeReg");
+        Assert.assertTrue(isAlertHandled);
     }
 }
